@@ -1,0 +1,213 @@
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    box-shadow: 0px 1px 3px -2px rgb(33 , 33 , 46);
+    align-items: center;
+}
+
+.nav-logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-logo img{
+    height: 58px;
+}
+
+.nav-logo p{
+    color: #171717;
+    font-size: 38px;
+    font-weight: 600;
+}
+
+.nav-menu{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    list-style: none; /*remove . from list */
+    color: #404040;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.nav-menu li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    position: relative;
+    
+}
+
+.nav-menu li Link{
+    text-decoration: none;
+}
+
+.nav-menu li:hover {
+    /* Add your hover styles here */
+    background-color: #f0f0f0; /* Example background color change */
+    color: #d21212; /* Example text color change */
+    /* Add any other hover styles you want */
+    border-radius: 5px; /* Example border radius change */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Example box shadow on hover */
+}
+
+
+.nav-menu hr {
+    position: absolute; /* Add this line */
+    bottom: -20px; /* Add this line */
+    left: 48%; /* Add this line */
+    transform: translateX(-50%); /* Add this line */
+    border: none;
+    width: 90%;
+    height: 2px;
+    border-radius: 10px;
+    background: #ff4141;
+}
+
+.nav-login-cart{
+    display: flex;
+    align-items: center;
+    gap: 45px;
+}
+
+.nav-login-cart button{
+    width: 157px;
+    height: 58px;
+    outline: none;
+    border: 1px solid darkgray;
+    border-radius: 75px;
+    font-size: 20px;
+    font-weight: 500;
+    background: white;
+    cursor: pointer;
+}
+
+.nav-login-cart button:hover{
+    /* Add your hover styles here */
+    background-color: #f0f0f0; /* Example background color change */
+    color: #d21212; /* Example text color change */
+    /* Add any other hover styles you want */
+    border-radius: 75px; /* Example border radius change */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Example box shadow on hover */
+}
+
+.nav-login-cart button:active{
+    background: #f3f3f3;
+}
+
+.nav-cart-count{
+    display: flex;
+    width: 22px;
+    height: 22px;
+    justify-content: center;
+    align-items: center;
+    margin-top: -35px;
+    margin-left: -51px;
+    border-radius: 11px;
+    font-size: 15px;
+    background: red;
+    color: white;
+}
+.nav-dropdown{
+    display: none;
+}
+@media(max-width:1280px){
+    .navbar{
+        padding: 12px 50px;
+    }
+    .nav-logo img{
+        width: 40px;
+    }
+    .nav-logo p{
+       font-size: 25px; 
+    }
+    .nav-menu{
+        gap: 30px;
+        font-size: 16px;
+    }
+    .nav-login-cart{
+        gap: 30px;
+    }
+    .nav-login-cart button{
+        width: 120px;
+        height: 45px;
+        font-size: 16px;
+    }
+    .nav-cart-count{
+        margin-left: -40px;
+        font-size: 12px;
+    }
+}
+
+@media(max-width:1024px){
+    .navbar{
+        padding: 12px 30px;
+    }
+    .nav-menu{
+        gap: 25px;
+        font-size: 14px;
+    }
+    .nav-login-cart button{
+        width: 80px;
+        height: 35px;
+        font-size: 14px;
+    }
+    .nav-login-cart img{
+        width: 30px;
+    }
+    .nav-cart-count{
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media(max-width:800px){
+    .navbar{
+        padding: 10px 0px;
+    }
+    .nav-dropdown {
+        display: block;
+        width: 30px;
+        transform: rotate(-90deg); /* Corrected */
+        transition: 0.5s;
+        border-radius: 150px;
+    }
+    .nav-menu{
+        display: none;
+        height: 80px;
+        width: 100%;
+        position: absolute;
+        background-color: white;
+        justify-content: center;
+        top: 50px;
+    }
+    .nav-menu-visible{
+        display: flex;
+    }
+    .nav-dropdown.open{
+        transform: rotate(1deg);
+    }
+}
+
+@media(max-width:500px){
+    .navbar{
+        width: 8px 0px;
+        gap:0;
+    }
+    .nav-logo{
+        transform: scale(0.8);
+    }
+    .nav-menu{
+        height: 70px;
+        top: 50px;
+    }
+    .nav-cart-cart{
+        transform: scale(0.8);
+    }
+}
+
+
