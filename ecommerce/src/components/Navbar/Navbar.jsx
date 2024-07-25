@@ -21,7 +21,7 @@ const Navbar = () => {
     <div className='navbar'>
       <div className="nav-logo">
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img src={logo1} alt="logo" />
+          <img src={logo1} alt="logo"/>
           <p><i>SHOPIFY</i></p>
         </Link>
       </div>

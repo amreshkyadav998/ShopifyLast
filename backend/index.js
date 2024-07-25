@@ -207,6 +207,106 @@ app.post('/login' , async(req,res) => {
     }
 })
 
+//creating endpoint for newcollection data 
+app.get("/newcollections" , async(req,res) => {
+    let products = await Product.find({});
+    let newcollection = products.slice(1).slice(-8);
+    console.log("NewCollection Fetched");
+    res.send(newcollection);
+})
+
+//creating endpoint for popular in women section
+app.get("/popularinwomen" , async(req,res) => {
+    let product = await Product.find({category:"women"});
+    let popular_in_women = product.slice(0,4);
+    console.log("Popular in women fetched");
+    res.send(popular_in_women);
+})
+
+//creating middleware to fetch user
+
+const fetchUser = async (req, res, next) => {
+    const token = req.header('auth-token');
+    if (!token) {
+        return res.status(401).send({ errors: "Please authenticate using a valid token" });
+    }
+    try {
+        const data = jwt.verify(token, 'secret_ecom');
+        req.user = data.user;
+        next();
+    } catch (error) {
+        return res.status(401).send({ errors: "Please authenticate using a valid token" });
+    }
+};
+
+
+// creating endpoint for adding products in cartdata
+app.post("/addcart", fetchUser, async (req, res) => {
+    console.log("Added" , req.body.itemId);
+    try {
+        let userData = await Users.findById(req.user.id);
+        if (!userData) {
+            return res.status(404).send({ errors: "User not found" });
+        }
+
+        // Initialize cartData if not present
+        if (!userData.cartData) {
+            userData.cartData = {};
+        }
+
+        // Initialize item count if not present
+        if (!userData.cartData[req.body.itemId]) {
+            userData.cartData[req.body.itemId] = 0;
+        }
+
+        userData.cartData[req.body.itemId] += 1;
+
+        await Users.findByIdAndUpdate(req.user.id, { cartData: userData.cartData });
+
+        res.json({ message: "Added" });  // Return JSON response
+    } catch (error) {
+        res.status(500).send({ errors: "Internal Server Error" });
+    }
+});
+
+// creating endpoint to remove product from cart data
+app.post('/removefromcart',fetchUser,async(req,res) => {
+    console.log("removed" , req.body.itemId);
+    try {
+        let userData = await Users.findById(req.user.id);
+        if (!userData) {
+            return res.status(404).send({ errors: "User not found" });
+        }
+
+        // Initialize cartData if not present
+        if (!userData.cartData) {
+            userData.cartData = {};
+        }
+
+        // Initialize item count if not present
+        if (!userData.cartData[req.body.itemId]) {
+            userData.cartData[req.body.itemId] = 0;
+        }
+
+        if(userData.cartData[req.body.itemId] > 0) {
+        userData.cartData[req.body.itemId] -= 1;
+        }
+
+        await Users.findByIdAndUpdate(req.user.id, { cartData: userData.cartData });
+
+        res.json({ message: "Removed" });  // Return JSON response
+    } catch (error) {
+        res.status(500).send({ errors: "Internal Server Error" });
+    }
+})
+
+//creating endpoint to get cartdata
+app.post('/getcart' ,fetchUser,async(req,res) => {
+    console.log("GetCart");
+    let userData = await Users.findById(req.user.id);
+    res.json(userData.cartData);
+})
+
 app.listen(port, (error) => {
     if (!error) {
         console.log("Server Running on Port " + port);
