@@ -17,7 +17,7 @@ const LoginSignup = () => {
   const login = async () =>{
     console.log("Login function executed",formData);
     let responseData;
-    await fetch('http://localhost:4001/login',{
+    await fetch('https://shopifylast-production.up.railway.app/login',{
       method:'POST',
       headers:{
         Accept:'application/formData',
@@ -38,7 +38,7 @@ const LoginSignup = () => {
   const signup = async () =>{
     console.log("signup function executed",formData);
     let responseData;
-    await fetch('http://localhost:4001/signup',{
+    await fetch('https://shopifylast-production.up.railway.app/signup',{
       method:'POST',
       headers:{
         Accept:'application/formData',

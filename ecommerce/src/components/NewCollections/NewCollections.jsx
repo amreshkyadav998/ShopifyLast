@@ -8,7 +8,7 @@ const NewCollections = () => {
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4001/newcollections")
+    fetch("https://shopifylast-production.up.railway.app/newcollections")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
