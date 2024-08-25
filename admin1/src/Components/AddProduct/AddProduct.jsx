@@ -29,7 +29,7 @@ const AddProduct = () => {
         let formData = new FormData();
         formData.append('product', image);
 
-        await fetch('http://localhost:4001/upload', {
+        await fetch('https://shopifyecommerce.onrender.com/upload', {
             method: 'POST',
             headers: {
                 Accept: 'application/json'
@@ -42,7 +42,7 @@ const AddProduct = () => {
         if (responseData.success) {
             product.image = responseData.image_url;
             console.log(product);
-            await fetch('http://localhost:4001/addproduct', {
+            await fetch('https://shopifyecommerce.onrender.com/addproduct', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

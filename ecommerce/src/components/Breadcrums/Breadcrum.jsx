@@ -6,7 +6,7 @@ const Breadcrum = (props) => {
     const { product } = props;
 
     if (!product) {
-        return null; // Or some default UI
+        return null; 
     }
 
     return (
