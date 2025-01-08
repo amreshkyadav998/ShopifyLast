@@ -29,7 +29,7 @@ const AddProduct = () => {
         let formData = new FormData();
         formData.append('product', image);
 
-        await fetch('https://shopifylast-production.up.railway.app/upload', {
+        await fetch('http://localhost:3000/upload', {
             method: 'POST',
             headers: {
                 Accept: 'application/json'

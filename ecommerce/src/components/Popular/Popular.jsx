@@ -8,7 +8,7 @@ const Popular = () => {
  const  [popular , setPopular] = useState([]);
 
   useEffect(() =>{
-    fetch("https://shopifylast-production.up.railway.app/popularinwomen")
+    fetch("http://localhost:3000/popularinwomen")
     .then((response) => response.json())
     .then((data) => setPopular(data));
   },[])

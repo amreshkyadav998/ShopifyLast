@@ -15,14 +15,14 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
     useEffect(() => {
-        fetch('https://shopifylast-production.up.railway.app/allproducts')
+        fetch('http://localhost:3000/allproducts')
             .then((response) => response.json())
             .then((data) => setAll_Product(data))
             .catch((error) => console.error('Error fetching products:', error));
 
         const authToken = localStorage.getItem('auth-token');
         if (authToken) {
-            fetch('https://shopifylast-production.up.railway.app/getcart', {
+            fetch('http://localhost:3000/getcart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -42,7 +42,7 @@ const ShopContextProvider = (props) => {
 
         const authToken = localStorage.getItem('auth-token');
         if (authToken) {
-            fetch('https://shopifylast-production.up.railway.app/addcart', {
+            fetch('http://localhost:3000/addcart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -62,7 +62,7 @@ const ShopContextProvider = (props) => {
 
         const authToken = localStorage.getItem('auth-token');
         if (authToken) {
-            fetch('https://shopifylast-production.up.railway.app/removefromcart', {
+            fetch('http://localhost:3000/removefromcart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

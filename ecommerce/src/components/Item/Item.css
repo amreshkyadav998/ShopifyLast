@@ -1,16 +1,17 @@
 .item{
     width: 280px;
+    margin-bottom: 10px;
 }
 .item img{
     width: 280px;
-    margin-left: 75px;
+    margin-left: 15px;
     width: 100%;
 }
 
 .item p{
     margin: 6px 5px;
     /* display: inline-flex; */
-    margin-left: 75px;
+    margin-left: 15px;
     width: 120px; 
     
 }
@@ -19,7 +20,7 @@
     display: flex;
     gap: 20px;
     margin: 6px 5px;
-    margin-left: 75px;
+    margin-left: 15px;
 }
 
 .item-price-new{
@@ -98,7 +99,7 @@
         margin-right: 75px;
     }
     .item-price-old{
-        margin: 4px -5px;
+        margin: 4px -60px;
         /* margin-right: 100px; */
     }
 }

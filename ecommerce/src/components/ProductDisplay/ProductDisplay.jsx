@@ -60,5 +60,3 @@ const ProductDisplay = (props) => {
 export default ProductDisplay
 
 
-
-// 1:59:21

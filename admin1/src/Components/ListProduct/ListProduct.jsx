@@ -7,7 +7,7 @@ const ListProduct = () => {
   const [allproducts,setAllProducts] = useState([]);
    
   const fetchInfo = async () => {
-    await fetch('https://shopifylast-production.up.railway.app/allproducts')
+    await fetch('http://localhost:3000/allproducts')
     .then((res)=>res.json())
     .then((data)=>{setAllProducts(data)});
   }
