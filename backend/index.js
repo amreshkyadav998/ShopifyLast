@@ -11,11 +11,18 @@ const { type } = require("os");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const port = process.env.PORT;
+const cors = require('cors');
+
+
+app.use(cors());  // Allows all origins, but you may want to configure it specifically
+
 
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 // Serve static files for the frontend (ecommerce or admin)
+// Serve static files from the 'build' directory
+app.use('/ShopifyLast', express.static(path.join(__dirname, 'build')));
 app.use(express.static(path.join(__dirname, 'ecommerce/build')));  // for ecommerce
 app.use(express.static(path.join(__dirname, 'admin/build')));  // for admin
 app.use(bodyParser.json());
