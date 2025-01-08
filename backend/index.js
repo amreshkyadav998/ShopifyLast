@@ -14,6 +14,10 @@ const port = process.env.PORT;
 
 
 // Middleware
+app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files for the frontend (ecommerce or admin)
+app.use(express.static(path.join(__dirname, 'ecommerce/build')));  // for ecommerce
+app.use(express.static(path.join(__dirname, 'admin/build')));  // for admin
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
