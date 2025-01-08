@@ -73,7 +73,7 @@ const AddProduct = () => {
             formData.append("image", image);
     
             // Upload image to Cloudinary
-            const response = await fetch("http://localhost:3000/upload", {
+            const response = await fetch("https://shopifylastback.onrender.com/upload", {
                 method: "POST",
                 body: formData,
             });
@@ -89,7 +89,7 @@ const AddProduct = () => {
                 console.log(data.url);
     
                 // Save product details
-                const productResponse = await fetch("http://localhost:3000/addproduct", {
+                const productResponse = await fetch("https://shopifylastback.onrender.com/addproduct", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
