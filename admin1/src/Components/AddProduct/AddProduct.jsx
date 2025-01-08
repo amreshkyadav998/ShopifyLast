@@ -21,44 +21,97 @@ const AddProduct = () => {
         setImage(e.target.files[0]);
     };
 
+    // const Add_Product = async () => {
+    //     console.log(productDetails);
+    //     let responseData;
+    //     let product = productDetails;
+
+    //     let formData = new FormData();
+    //     formData.append('product', image);
+
+    //     await fetch('http://localhost:3000/upload', {
+    //         method: 'POST',
+    //         headers: {
+    //             Accept: 'application/json'
+    //         },
+    //         body: formData,
+    //     })
+    //         .then((resp) => resp.json())
+    //         .then((data) => { responseData = data });
+
+    //     if (responseData.success) {
+    //         product.image = responseData.image_url;
+    //         console.log(product);
+    //         await fetch('http://localhost:3000/addproduct', {
+    //             method: 'POST',
+    //             headers: {
+    //                 Accept: 'application/json',
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(product),
+    //         })
+    //             .then((resp) => resp.json())
+    //             .then((data) => {
+    //                 data.success ? alert("Product Added") : alert("Failed");
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error adding product:", error);
+    //             });
+    //     }
+    // };
+
+
     const Add_Product = async () => {
-        console.log(productDetails);
-        let responseData;
-        let product = productDetails;
-
-        let formData = new FormData();
-        formData.append('product', image);
-
-        await fetch('http://localhost:3000/upload', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json'
-            },
-            body: formData,
-        })
-            .then((resp) => resp.json())
-            .then((data) => { responseData = data });
-
-        if (responseData.success) {
-            product.image = responseData.image_url;
-            console.log(product);
-            await fetch('https://shopifylast-production.up.railway.app/addproduct', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(product),
-            })
-                .then((resp) => resp.json())
-                .then((data) => {
-                    data.success ? alert("Product Added") : alert("Failed");
-                })
-                .catch((error) => {
-                    console.error("Error adding product:", error);
+        if (!image || !productDetails.name || !productDetails.old_price || !productDetails.new_price) {
+            alert("Please fill out all fields and upload an image.");
+            return;
+        }
+    
+        try {
+            // Prepare FormData for image upload
+            let formData = new FormData();
+            formData.append("image", image);
+    
+            // Upload image to Cloudinary
+            const response = await fetch("http://localhost:3000/upload", {
+                method: "POST",
+                body: formData,
+            });
+    
+            const data = await response.json();
+    
+            if (data.success) {
+                // Set image URL returned from the server
+                const product = {
+                    ...productDetails,
+                    image: data.url, // Assuming backend returns `url` for the Cloudinary image
+                };
+                console.log(data.url);
+    
+                // Save product details
+                const productResponse = await fetch("http://localhost:3000/addproduct", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(product),
                 });
+    
+                const productData = await productResponse.json();
+                if (productData.success) {
+                    alert("Product added successfully!");
+                } else {
+                    alert("Failed to add product.");
+                }
+            } else {
+                alert("Failed to upload image.");
+            }
+        } catch (error) {
+            console.error("Error uploading product:", error);
+            alert("Something went wrong. Please try again.");
         }
     };
+    
 
     return (
         <div className='add-product'>

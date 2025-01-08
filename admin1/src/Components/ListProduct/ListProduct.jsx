@@ -17,7 +17,7 @@ const ListProduct = () => {
   },[])
 
   const remove_product = async (id) => {
-    await fetch('https://shopifylast-production.up.railway.app/removeproduct',{
+    await fetch('http://localhost:3000/removeproduct',{
       method:'POST',
       headers:{
         Accept:'application/json',

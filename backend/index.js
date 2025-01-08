@@ -1,20 +1,32 @@
-const port = process.env.PORT || 4001;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const multer = require("multer");
+// import { v2 as cloudinary } from "cloudinary";
+const {v2:cloudinary} = require("cloudinary");
+const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
 const { type } = require("os");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const port = process.env.PORT;
 
 
+// Middleware
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
+// Cloudinary Configuration
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+
 // MongoDB connection
-mongoose.connect("mongodb+srv://amreshky998:oFaQ9MTd1O2SJ8Ev@cluster0.b2ad6nh.mongodb.net/Shopify", {
+mongoose.connect(process.env.MONGO_URL, {
     dbName:'Shopify',
     serverSelectionTimeoutMS: 30000, 
 }).then(() => {
@@ -25,23 +37,56 @@ mongoose.connect("mongodb+srv://amreshky998:oFaQ9MTd1O2SJ8Ev@cluster0.b2ad6nh.mo
 });
 
 // Image Storage Engine
-const storage = multer.diskStorage({
-    destination: './upload/images',
-    filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+// const storage = multer.diskStorage({
+//     destination: './upload/images',
+//     filename: (req, file, cb) => {
+//         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+//     }
+// });
+
+// const upload = multer({ storage: storage });
+
+// app.use('/images', express.static('upload/images'));
+
+// app.post("/upload", upload.single('product'), (req, res) => {
+//     res.json({
+//         success: 1,
+//         image_url: `http://localhost:${port}/images/${req.file.filename}`
+//     });
+// });
+
+// Multer Setup
+const storage = multer.memoryStorage(); // Store files in memory buffer
+const upload = multer({ storage });
+
+// Route to upload image
+app.post("/upload", upload.single("image"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+  
+      // Upload image to Cloudinary
+      cloudinary.uploader.upload_stream(
+        { folder: "upload" }, // Folder in Cloudinary
+        (error, result) => {
+          if (error) {
+            console.error("Cloudinary upload error:", error);
+            return res.status(500).json({ error: "Failed to upload image" });
+          }
+  
+          if (result) {
+            res.status(200).json({ success: true, url: result.secure_url });
+          }
+          console.log(result.secure_url);
+        }
+      ).end(req.file.buffer); // Make sure to pass the buffer here
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      res.status(500).json({ error: "An error occurred during image upload" });
     }
-});
-
-const upload = multer({ storage: storage });
-
-app.use('/images', express.static('upload/images'));
-
-app.post("/upload", upload.single('product'), (req, res) => {
-    res.json({
-        success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
-    });
-});
+  });
+  
 
 // Product Schema
 const Product = mongoose.model("Product", {
@@ -269,6 +314,7 @@ app.post("/addcart", fetchUser, async (req, res) => {
     }
 });
 
+// 
 // creating endpoint to remove product from cart data
 app.post('/removefromcart',fetchUser,async(req,res) => {
     console.log("removed" , req.body.itemId);
